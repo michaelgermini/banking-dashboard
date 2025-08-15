@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.idea/
+.vscode/
+.streamlit/credentials.toml
+.streamlit/secrets.toml
+*.pdf
+*.png
+*.svg
+*.jpg
+tmp/
+*.log
+
