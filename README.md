@@ -1,5 +1,7 @@
 ## Direction Banking Dashboard (Streamlit)
 
+Demo en ligne: [data-banking-dashboard.streamlit.app](https://data-banking-dashboard.streamlit.app/)
+
 Local run:
 
 1) Create venv and install deps
