@@ -19,7 +19,7 @@ from reporting import generate_pdf_from_html, render_html_report
 
 
 st.set_page_config(
-    page_title="Direction bancaire - Dashboard",
+    page_title="Banking executive dashboard",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -36,8 +36,8 @@ def make_revenue_chart(df: pd.DataFrame):
         df.reset_index(),
         x="date",
         y=["revenue_chf_m", "gross_margin_chf_m"],
-        labels={"value": "CHF m", "date": "Date", "variable": "Série"},
-        title="Chiffre d'affaires et marge",
+        labels={"value": "CHF m", "date": "Date", "variable": "Series"},
+        title="Revenue and margin",
     )
     fig.update_layout(legend_title_text="")
     return fig
@@ -48,8 +48,8 @@ def make_balance_chart(df: pd.DataFrame):
         df.reset_index(),
         x="date",
         y=["deposits_chf_m", "aum_chf_m"],
-        labels={"value": "CHF m", "date": "Date", "variable": "Série"},
-        title="Dépôts et encours (AUM)",
+        labels={"value": "CHF m", "date": "Date", "variable": "Series"},
+        title="Deposits and assets (AUM)",
     )
     fig.update_layout(legend_title_text="")
     return fig
@@ -65,7 +65,7 @@ def make_profit_chart(df: pd.DataFrame):
             "profit_corporate_chf_m",
         ],
         labels={"value": "CHF m", "date": "Date", "variable": "Segment"},
-        title="Résultat par segment",
+        title="Operating profit by segment",
     )
     fig.update_layout(legend_title_text="")
     return fig
@@ -76,8 +76,8 @@ def make_risk_chart(df: pd.DataFrame):
         df.reset_index(),
         x="date",
         y=["npl_ratio_pct", "market_var_bps", "lcr_pct"],
-        labels={"value": "", "date": "Date", "variable": "Indicateur"},
-        title="Indicateurs de risque",
+        labels={"value": "", "date": "Date", "variable": "Indicator"},
+        title="Risk indicators",
     )
     fig.update_layout(legend_title_text="")
     return fig
@@ -94,56 +94,46 @@ def save_figures_to_temp(figs: dict[str, any], temp_dir: Path) -> dict[str, str]
 
 
 def main():
-    st.title("📊 Tableau de bord de direction bancaire")
-    st.caption(
-        "Suivi de la performance, des risques et génération de rapports (démo)."
-    )
+    st.title("📊 Banking executive dashboard")
+    st.caption("Track performance, risks and generate reports (demo).")
 
     with st.sidebar:
-        st.header("Paramètres")
-        scenario = st.selectbox("Scénario", ["Baseline", "Adverse", "Severe"], index=0)
-        periods = st.slider("Nombre de mois", min_value=12, max_value=60, value=36)
+        st.header("Settings")
+        scenario = st.selectbox("Scenario", ["Baseline", "Adverse", "Severe"], index=0)
+        periods = st.slider("Number of months", min_value=12, max_value=60, value=36)
         st.markdown("---")
         st.markdown("**Export**")
-        include_charts_in_pdf = st.checkbox(
-            "Inclure les graphiques dans le PDF", value=True
-        )
+        include_charts_in_pdf = st.checkbox("Include charts in PDF", value=True)
 
     df = get_data(periods=periods, scenario=scenario)
     kpis = compute_kpis(df)
     risks = compute_risk_indicators(df)
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric(
-        "CA (dernier mois)",
-        format_currency_chf_m(kpis["revenue_chf_m"]),
-    )
-    col2.metric("Marge", format_pct(kpis["margin_pct"]))
+    col1.metric("Revenue (last month)", format_currency_chf_m(kpis["revenue_chf_m"]))
+    col2.metric("Margin", format_pct(kpis["margin_pct"]))
     col3.metric(
-        "Dépôts",
+        "Deposits",
         format_currency_chf_m(kpis["deposits_chf_m"]),
         f"{kpis['deposits_growth_pct']:+.2f}%",
     )
     col4.metric("AUM", format_currency_chf_m(kpis["aum_chf_m"]))
 
     col5, col6 = st.columns(2)
-    col5.metric(
-        "Résultat opérationnel",
-        format_currency_chf_m(kpis["profit_total_chf_m"]),
-    )
+    col5.metric("Operating profit", format_currency_chf_m(kpis["profit_total_chf_m"]))
     # Risk alerts
     with col6:
         if risks["lcr_pct"] < 100:
-            st.error(f"LCR sous seuil: {risks['lcr_pct']:.0f}% (< 100%)")
+            st.error(f"LCR below threshold: {risks['lcr_pct']:.0f}% (< 100%)")
         elif risks["lcr_pct"] < 120:
-            st.warning(f"LCR à surveiller: {risks['lcr_pct']:.0f}%")
+            st.warning(f"LCR to watch: {risks['lcr_pct']:.0f}%")
         else:
-            st.success(f"LCR confortable: {risks['lcr_pct']:.0f}%")
+            st.success(f"Comfortable LCR: {risks['lcr_pct']:.0f}%")
 
         if risks["npl_ratio_pct"] > 3.0:
-            st.warning(f"NPL ratio élevé: {risks['npl_ratio_pct']:.2f}% (> 3%)")
+            st.warning(f"High NPL ratio: {risks['npl_ratio_pct']:.2f}% (> 3%)")
         if risks["market_var_bps"] > 150:
-            st.warning(f"VaR élevée: {risks['market_var_bps']:.0f} bps")
+            st.warning(f"High VaR: {risks['market_var_bps']:.0f} bps")
 
     st.markdown("---")
 
@@ -162,13 +152,11 @@ def main():
         st.plotly_chart(fig_risk, use_container_width=True)
 
     # Report export
-    st.subheader("Export du rapport PDF")
-    st.caption(
-        "Génère un rapport PDF avec KPIs, risques et graphiques (xhtml2pdf)."
-    )
+    st.subheader("Export PDF report")
+    st.caption("Generate a PDF report with KPIs, risks and charts (xhtml2pdf).")
 
-    if st.button("Générer le PDF"):
-        with st.spinner("Génération du rapport..."):
+    if st.button("Generate PDF"):
+        with st.spinner("Generating report..."):
             with tempfile.TemporaryDirectory() as tmpdir:
                 tmp = Path(tmpdir)
                 figures = {}
@@ -215,9 +203,9 @@ def main():
                 html = render_html_report(context)
                 pdf_bytes = generate_pdf_from_html(html)
                 st.download_button(
-                    label="Télécharger le rapport PDF",
+                    label="Download PDF report",
                     data=pdf_bytes,
-                    file_name="rapport_direction.pdf",
+                    file_name="executive_report.pdf",
                     mime="application/pdf",
                 )
 

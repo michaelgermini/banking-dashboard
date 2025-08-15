@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Rapport de direction - Tableau de bord</title>
+    <title>Executive report - Dashboard</title>
     <style>
       @page {
         size: A4;
@@ -39,35 +39,35 @@
     </style>
   </head>
   <body>
-    <h1>Rapport de direction</h1>
-    <div class="muted">Période: {{ period_start }} — {{ period_end }} | Scénario: {{ scenario }}</div>
+    <h1>Executive report</h1>
+    <div class="muted">Period: {{ period_start }} — {{ period_end }} | Scenario: {{ scenario }}</div>
 
     <div class="section">
-      <h2>KPIs financiers</h2>
+      <h2>Financial KPIs</h2>
       <div class="kpi-grid">
         <div class="kpi-row">
-          <div class="kpi-cell"><strong>Chiffre d'affaires</strong></div>
+          <div class="kpi-cell"><strong>Revenue</strong></div>
           <div class="kpi-cell">{{ kpis.revenue_fmt }}</div>
-          <div class="kpi-cell"><strong>Marge</strong></div>
+          <div class="kpi-cell"><strong>Margin</strong></div>
           <div class="kpi-cell">{{ kpis.margin_fmt }}</div>
         </div>
         <div class="kpi-row">
-          <div class="kpi-cell"><strong>Dépôts</strong></div>
+          <div class="kpi-cell"><strong>Deposits</strong></div>
           <div class="kpi-cell">{{ kpis.deposits_fmt }}</div>
-          <div class="kpi-cell"><strong>Croissance dépôts</strong></div>
+          <div class="kpi-cell"><strong>Deposit growth</strong></div>
           <div class="kpi-cell">{{ kpis.deposits_growth_fmt }}</div>
         </div>
         <div class="kpi-row">
-          <div class="kpi-cell"><strong>Encours (AUM)</strong></div>
+          <div class="kpi-cell"><strong>Assets (AUM)</strong></div>
           <div class="kpi-cell">{{ kpis.aum_fmt }}</div>
-          <div class="kpi-cell"><strong>Résultat opérationnel</strong></div>
+          <div class="kpi-cell"><strong>Operating profit</strong></div>
           <div class="kpi-cell">{{ kpis.profit_fmt }}</div>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <h2>Risques clés</h2>
+      <h2>Key risks</h2>
       <div class="kpi-grid">
         <div class="kpi-row">
           <div class="kpi-cell"><strong>NPL ratio</strong></div>
@@ -78,34 +78,34 @@
         <div class="kpi-row">
           <div class="kpi-cell"><strong>LCR</strong></div>
           <div class="kpi-cell">{{ risks.lcr_fmt }}</div>
-          <div class="kpi-cell"><strong>Exposition contrepartie</strong></div>
+          <div class="kpi-cell"><strong>Counterparty exposure</strong></div>
           <div class="kpi-cell">{{ risks.cpty_fmt }}</div>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <h2>Graphiques</h2>
+      <h2>Charts</h2>
       <div class="chart">
-        <div><strong>CA et marge</strong></div>
+        <div><strong>Revenue and margin</strong></div>
         <img src="{{ figures.revenue_chart }}" width="520" />
       </div>
       <div class="chart">
-        <div><strong>Dépôts et AUM</strong></div>
+        <div><strong>Deposits and AUM</strong></div>
         <img src="{{ figures.balance_chart }}" width="520" />
       </div>
       <div class="chart">
-        <div><strong>Résultat par segment</strong></div>
+        <div><strong>Profit by segment</strong></div>
         <img src="{{ figures.profit_chart }}" width="520" />
       </div>
       <div class="chart">
-        <div><strong>Indicateurs de risque</strong></div>
+        <div><strong>Risk indicators</strong></div>
         <img src="{{ figures.risk_chart }}" width="520" />
       </div>
     </div>
 
     <div class="footnote">
-      Rapport généré automatiquement. Les chiffres sont à titre démonstratif.
+      Report generated automatically. Figures are for demonstration only.
     </div>
   </body>
   </html>

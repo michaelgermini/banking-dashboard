@@ -1,6 +1,6 @@
-## Direction Banking Dashboard (Streamlit)
+## Executive Banking Dashboard (Streamlit)
 
-Demo en ligne: [data-banking-dashboard.streamlit.app](https://data-banking-dashboard.streamlit.app/)
+Live demo: [data-banking-dashboard.streamlit.app](https://data-banking-dashboard.streamlit.app/)
 
 Local run:
 
