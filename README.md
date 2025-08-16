@@ -146,14 +146,6 @@ streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 👨‍💻 Author
-
-**Michael Germini** - [GitHub Profile](https://github.com/michaelgermini)
-
 ---
 
 ## 🔍 **Code Audit Report**
@@ -330,6 +322,14 @@ The software has a **solid architecture** and **clean codebase**. The main impro
 **Recommendation**: Implement security and robustness improvements before critical production deployment.
 
 ---
+
+## 👨‍💻 Author
+
+**Michael Germini** - [GitHub Profile](https://github.com/michaelgermini)
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
 
 ## 📞 Support
 
