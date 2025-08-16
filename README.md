@@ -156,7 +156,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 📞 Support
 
-For questions, issues, or feature requests, please open an issue on GitHub or contact the author.
+For questions, issues, or feature requests, please:
+- Open an issue on GitHub, or
+- Contact the author directly: **michael@germini.info**
 
 ---
 
