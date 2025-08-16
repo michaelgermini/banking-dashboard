@@ -2,6 +2,10 @@
 
 A comprehensive **Streamlit-based banking dashboard** designed for executive-level financial monitoring, risk assessment, and automated report generation. This application provides real-time insights into banking performance metrics with interactive visualizations and scenario analysis capabilities.
 
+## 📱 Live Demo
+
+Experience the dashboard online: **[data-banking-dashboard.streamlit.app](https://data-banking-dashboard.streamlit.app/)**
+
 ## 🌟 Features
 
 ### 📊 **Real-time Financial Monitoring**
@@ -77,10 +81,6 @@ A comprehensive **Streamlit-based banking dashboard** designed for executive-lev
    - Open your browser and go to: `http://localhost:8501`
    - The dashboard will automatically open in your default browser
 
-## 📱 Live Demo
-
-Experience the dashboard online: **[data-banking-dashboard.streamlit.app](https://data-banking-dashboard.streamlit.app/)**
-
 ## 🛠️ Usage Guide
 
 ### Dashboard Navigation
@@ -153,12 +153,6 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 👨‍💻 Author
 
 **Michael Germini** - [GitHub Profile](https://github.com/michaelgermini)
-
-## 📞 Support
-
-For questions, issues, or feature requests, please:
-- Open an issue on GitHub, or
-- Contact the author directly: **michael@germini.info**
 
 ---
 
@@ -334,6 +328,14 @@ def generate_financial_data(...):
 The software has a **solid architecture** and **clean codebase**. The main improvements concern **robustness** and **error handling** rather than critical security issues. The application is **production-ready** with the recommended improvements.
 
 **Recommendation**: Implement security and robustness improvements before critical production deployment.
+
+---
+
+## 📞 Support
+
+For questions, issues, or feature requests, please:
+- Open an issue on GitHub, or
+- Contact the author directly: **michael@germini.info**
 
 ---
 
