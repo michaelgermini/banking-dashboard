@@ -162,5 +162,180 @@ For questions, issues, or feature requests, please:
 
 ---
 
+## 🔍 **Code Audit Report**
+
+### 📊 **Executive Summary**
+
+**Overall Score: 8.5/10** - Well-structured application with recommended improvements
+
+---
+
+## ✅ **Strengths**
+
+### 🏗️ **Architecture & Structure**
+- **Excellent modularity**: Clear separation of responsibilities
+- **Clean code**: Use of type hints and dataclasses
+- **Logical structure**: `streamlit_app.py`, `data.py`, `reporting.py`
+- **Separated templates**: HTML in `templates/` folder
+
+### 🔒 **Security**
+- **No sensitive data**: Uses simulated data only
+- **Input validation**: User parameter controls
+- **Secure file handling**: `tempfile.TemporaryDirectory()`
+- **No SQL injection**: No database queries
+
+### 📈 **Performance**
+- **Streamlit caching**: `@st.cache_data` for performance optimization
+- **Efficient generation**: Vectorized calculations with NumPy/Pandas
+- **Memory management**: Automatic cleanup of temporary files
+
+### 🎨 **User Interface**
+- **Responsive design**: Adaptive layout
+- **User feedback**: Spinners and status messages
+- **Visual alerts**: Color coding for risks (red/yellow/green)
+
+---
+
+## ⚠️ **Areas for Improvement**
+
+### 🛠️ **Code Quality**
+
+#### **1. Error Handling**
+```python
+# ❌ Issue: No robust error handling
+def generate_pdf_from_html(html: str) -> bytes:
+    buffer = BytesIO()
+    result = pisa.CreatePDF(src=html, dest=buffer, encoding="UTF-8")
+    if result.err:
+        return buffer.getvalue()  # Returns corrupted PDF
+    return buffer.getvalue()
+
+# ✅ Recommendation: Proper error handling
+def generate_pdf_from_html(html: str) -> bytes:
+    try:
+        buffer = BytesIO()
+        result = pisa.CreatePDF(src=html, dest=buffer, encoding="UTF-8")
+        if result.err:
+            raise ValueError(f"PDF generation failed: {result.err}")
+        return buffer.getvalue()
+    except Exception as e:
+        st.error(f"Failed to generate PDF: {str(e)}")
+        return b""
+```
+
+#### **2. Data Validation**
+```python
+# ❌ Issue: No parameter validation
+def generate_financial_data(periods: int = 36, scenario: str = "Baseline"):
+    # No validation of 'periods' or 'scenario'
+
+# ✅ Recommendation: Input validation
+def generate_financial_data(periods: int = 36, scenario: str = "Baseline"):
+    if periods < 1 or periods > 120:
+        raise ValueError("Periods must be between 1 and 120")
+    if scenario not in SCENARIOS:
+        raise ValueError(f"Invalid scenario: {scenario}")
+```
+
+#### **3. Documentation**
+- **Missing docstrings** for main functions
+- **No comments** on complex business logic
+
+### 🔒 **Advanced Security**
+
+#### **1. Template Validation**
+```python
+# ❌ Issue: No template validation
+def render_html_report(context: Dict[str, Any]) -> str:
+    template = env.get_template("report.html")
+    html = template.render(**context)  # No context validation
+
+# ✅ Recommendation: Context validation
+def render_html_report(context: Dict[str, Any]) -> str:
+    required_keys = ["scenario", "period_start", "period_end", "kpis", "risks"]
+    for key in required_keys:
+        if key not in context:
+            raise ValueError(f"Missing required key: {key}")
+```
+
+#### **2. Data Sanitization**
+```python
+# ❌ Issue: Unsanitized user data
+st.metric("Revenue", format_currency_chf_m(kpis["revenue_chf_m"]))
+
+# ✅ Recommendation: Type validation
+def safe_format_currency(value: Any) -> str:
+    if not isinstance(value, (int, float)):
+        raise ValueError("Invalid currency value")
+    return format_currency_chf_m(float(value))
+```
+
+### 📊 **Robustness**
+
+#### **1. Missing Data Handling**
+```python
+# ❌ Issue: No NaN handling
+deposits_growth = np.r_[np.nan, np.diff(deposits)] / np.r_[np.nan, deposits[:-1]] * 100.0
+
+# ✅ Recommendation: Handle missing values
+deposits_growth = np.r_[np.nan, np.diff(deposits)] / np.r_[np.nan, deposits[:-1]] * 100.0
+deposits_growth = np.nan_to_num(deposits_growth, nan=0.0)
+```
+
+#### **2. Logging**
+```python
+# ❌ Issue: No logging
+# ✅ Recommendation: Add logging
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+def generate_financial_data(...):
+    logger.info(f"Generating data for scenario: {scenario}")
+    # ... code ...
+    logger.info(f"Generated {len(df)} data points")
+```
+
+---
+
+## 🚀 **Priority Recommendations**
+
+### **1. Immediate (Security)**
+- [ ] Add user parameter validation
+- [ ] Implement robust error handling
+- [ ] Add data sanitization
+
+### **2. Short term (Quality)**
+- [ ] Add docstrings and comments
+- [ ] Implement logging
+- [ ] Add unit tests
+
+### **3. Medium term (Robustness)**
+- [ ] Handle missing data
+- [ ] Validate templates
+- [ ] Performance monitoring
+
+---
+
+## 🔒 **Security Checklist**
+
+- ✅ **No sensitive data exposed**
+- ✅ **Secure temporary file handling**
+- ✅ **No code injection**
+- ⚠️ **User input validation** (needs improvement)
+- ⚠️ **Error handling** (needs improvement)
+- ⚠️ **Data sanitization** (needs to be added)
+
+---
+
+## 📋 **Conclusion**
+
+The software has a **solid architecture** and **clean codebase**. The main improvements concern **robustness** and **error handling** rather than critical security issues. The application is **production-ready** with the recommended improvements.
+
+**Recommendation**: Implement security and robustness improvements before critical production deployment.
+
+---
+
 **Built with ❤️ using Streamlit and Python**
 
